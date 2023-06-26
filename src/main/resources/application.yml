@@ -1,0 +1,27 @@
+server:
+  port: 9000
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          kc:
+            provider: kc
+            client-id: signapp
+            client-secret: <secret>
+            authorization-grant-type: authorization_code
+            scope: openid
+        provider:
+          kc:
+            issuer-uri: http://127.0.0.1:8888/realms/dev
+
+  cloud:
+    gateway:
+      routes:
+        - id: api
+          uri: http://localhost:8080
+          predicates:
+            - Path=/**
+          filters:
+            - TokenRelay=
